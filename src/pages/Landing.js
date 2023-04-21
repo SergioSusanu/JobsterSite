@@ -4,6 +4,8 @@ import main from '../assets/images/main.svg'
 import styled from 'styled-components'
 import Wrapper from '../assets/wrappers/LandingPage'
 import {Logo} from '../components'
+import { Link } from 'react-router-dom'
+
 
 
 const Landing = () => {
@@ -18,7 +20,7 @@ const Landing = () => {
             <p>Apply for job interviews and keep track of your applications
                 with this app
             </p>
-            <button className="btn btn-hero">Login/Register</button>
+            <Link to='/register' className="btn btn-hero">Login/Register</Link>
         </div>
     
     <img src={main} alt="job hunt" className='img main-img' />
