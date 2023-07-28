@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import customFetch from '../../utils/axios'
 import { toast } from "react-toastify"
 import { addUserToLocalStorage, getUserFromLocalStorage, removeUserFromLocalStorage } from "../../utils/localStorage"
+import { loginUserThunk, registerUserThunk, updateUserThunk } from "./userThunk"
+
 
 const initialState = {
     isLoading:false,
@@ -11,42 +13,18 @@ const initialState = {
 
 export const registerUser = createAsyncThunk('user/registerUser',
 async (user, thunkApi) =>{
-    try {
-        const resp = await customFetch.post('/auth/register',user)
-        return resp.data;
-    } catch (error) {
-        console.log('catch error');
-        return thunkApi.rejectWithValue(error.response.data.msg)
-    }
+   return registerUserThunk("/auth/register", user, thunkApi);
 })
 
 export const loginUser = createAsyncThunk('user/loginUser',
 async (user, thunkApi) => {
-    try {
-        const resp = await customFetch.post('/auth/login', user)
-        return resp.data
-    } catch (error) {
-        return thunkApi.rejectWithValue(error.response.data.msg)
-    }
+    return loginUserThunk("/auth/login", user, thunkApi);
 })
 
 export const updateUser = createAsyncThunk(
     'user/updateUser',
     async (user, thunkApi) => {
-        try {
-            const resp = await customFetch.patch("/auth/updateUser", user, {
-              headers: {
-                authorization: `Bearer ${thunkApi.getState().user.user.token}`,
-              },
-            });
-            return resp.data
-        } catch (error) {
-            if (error.response.status === 401) {
-                thunkApi.dispatch(logoutUser())
-                return thunkApi.rejectWithValue('Unauthorized! Logging out...') 
-            }
-            return thunkApi.rejectWithValue(error.response.data.msg)
-        }
+        return updateUserThunk("/auth/updateUser", user, thunkApi);
     }
     )
 
