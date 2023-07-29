@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import FormRow from '../../components/FormRow'
 import FormRowSelect from '../../components/FormRowSelect'
-import { handleChange,  clearValues } from '../../features/job/jobSlice'
+import { handleChange,  clearValues, createJob } from '../../features/job/jobSlice'
 
 const AddJob = () => {
 
@@ -20,6 +20,8 @@ const AddJob = () => {
       toast.error("Please fill out all the fields")
       return
     }
+
+    dispatch(createJob({position, company, jobLocation, jobType, status}))
   }
 
   const handleJobInput = (e) => {
