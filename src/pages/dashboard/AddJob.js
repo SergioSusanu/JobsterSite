@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -10,6 +10,7 @@ const AddJob = () => {
 
   const {isLoading, position, company, jobLocation, jobType, jobTypeOptions,
   status, statusOptions, isEditing, editJobId} = useSelector ((store) => store.job)
+  const {user} =  useSelector((store) => store.user)
 
   const dispatch = useDispatch();  
 
@@ -30,7 +31,11 @@ const AddJob = () => {
     dispatch(handleChange({name, value}));
   }
 
-
+  useEffect(()=>{
+    if (!isEditing){
+      dispatch(handleChange({name: 'jobLocation', value: user.location}))
+    }
+  },[])
 
   return (
     <Wrapper>
