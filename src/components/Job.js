@@ -4,13 +4,15 @@ import Wrapper from '../assets/wrappers/Job'
 import { Link } from 'react-router-dom';
 import JobInfo from './JobInfo';
 import {FaLocationArrow, FaBriefcase, FaCalendarAlt} from 'react-icons/fa'
+import moment from 'moment';
+import { deleteJob, editJob } from '../features/job/jobSlice';
 
 function Job({_id, position, company, jobLocation, jobType,
   createdAt, status}) {
 
     const dispatch = useDispatch()
 
-    const date = createdAt
+    const date = moment(createdAt).format('MMM Do, YYYY');
 
   return (
     <Wrapper>
@@ -34,7 +36,8 @@ function Job({_id, position, company, jobLocation, jobType,
               to="/add-job"
               className="btn edit-btn"
               type="button"
-              onClick={() => console.log("edit job")}
+              onClick={() => dispatch(editJob({jobId:_id,
+                position, company, jobLocation,status, jobType }))}
             >
               Edit
             </Link>
@@ -42,7 +45,7 @@ function Job({_id, position, company, jobLocation, jobType,
             
               className="btn delete-btn"
               type="button"
-              onClick={() => console.log("delete job")}
+              onClick={() => dispatch(deleteJob(_id))}
             >
               delete
             </button>
