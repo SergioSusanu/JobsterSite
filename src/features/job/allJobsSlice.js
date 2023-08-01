@@ -21,6 +21,19 @@ const initialState = {
     ...initialFiltersState,
 }
 
+export const getStats = createAsyncThunk(
+  'allJobs/getStats',
+  async(_, thunkApi) => {
+    try {
+      const resp =await customFetch.get('/jobs/stats')
+      console.log(resp.data);
+      return resp.data
+    } catch (error) {
+      return thunkApi.rejectWithValue('error')
+    }
+  }
+)
+
 export const getAllJobs = createAsyncThunk(
     'allJobs/getJobs',
     async (_,thunkApi) => {
@@ -31,7 +44,7 @@ export const getAllJobs = createAsyncThunk(
                 authorization: `Bearer ${thunkApi.getState().user.user.token}`,
               },
             });
-            console.log(resp.data);
+          
             return resp.data;
         } catch (error) {
             return thunkApi.rejectWithValue('There was an error')
@@ -43,13 +56,13 @@ export const getAllJobs = createAsyncThunk(
 const allJobs = createSlice({
   name: "allJobs",
   initialState,
-  reducers:{
+  reducers: {
     showLoading: (state) => {
-      state.isLoading = true
+      state.isLoading = true;
     },
     hideLoading: (state) => {
-      state.isLoading = false
-    }
+      state.isLoading = false;
+    },
   },
   extraReducers: {
     [getAllJobs.pending]: (state) => {
@@ -57,11 +70,23 @@ const allJobs = createSlice({
     },
     [getAllJobs.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
+      console.log(payload);
       state.jobs = payload.jobs;
     },
     [getAllJobs.rejected]: (state, { payload }) => {
       state.isLoading = false;
       toast.error(payload);
+    },
+    [getStats.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getStats.fulfilled]: (state, {payload}) => {
+      state.isLoading = false;
+      state.stats = payload.defaultStats
+      state.monthlyApplications = payload.monthlyApplications
+    },
+    [getStats.rejected]: (state) => {
+      state.isLoading = false;
     },
   },
 });
