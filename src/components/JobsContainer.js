@@ -4,6 +4,7 @@ import Wrapper from '../assets/wrappers/JobsContainer'
 import Job from './Job'
 import Loading from './Loading'
 import { getAllJobs } from '../features/job/allJobsSlice'
+import PageBtnContainer from './PageBtnContainer'
 
 function JobsContainer() {
 
@@ -38,6 +39,7 @@ function JobsContainer() {
        return <Job key={job._id} {...job} />
     })}
       </div>
+      <PageBtnContainer />
     </Wrapper>
 
   )
