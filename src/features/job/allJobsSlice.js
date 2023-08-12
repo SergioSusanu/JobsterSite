@@ -63,6 +63,12 @@ const allJobs = createSlice({
     hideLoading: (state) => {
       state.isLoading = false;
     },
+    handleChange: (state, {payload:{name, value}}) => {
+      state[name] = value
+    },
+    clearValues: (state) => {
+      return {...state, ...initialFiltersState}
+    }
   },
   extraReducers: {
     [getAllJobs.pending]: (state) => {
@@ -70,7 +76,6 @@ const allJobs = createSlice({
     },
     [getAllJobs.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      console.log(payload);
       state.jobs = payload.jobs;
       state.numOfPages = payload.numOfPages
       state.totalJobs = payload.totalJobs
@@ -93,5 +98,5 @@ const allJobs = createSlice({
   },
 });
 
-export const {showLoading, hideLoading} = allJobs.actions
+export const {showLoading, hideLoading, handleChange, clearValues} = allJobs.actions
 export default allJobs.reducer
