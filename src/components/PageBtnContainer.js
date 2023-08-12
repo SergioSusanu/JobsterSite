@@ -20,21 +20,35 @@ const PageBtnContainer = () => {
 
   return (
     <Wrapper>
-      <button type='button' className='prev-btn' onClick={prevPage}>
-        <HiChevronDoubleLeft />prev</button>
-      
+      <button type="button" className="prev-btn" onClick={prevPage}>
+        <HiChevronDoubleLeft />
+        prev
+      </button>
+      <div className="btn-container">
         {aNumOfPages.map((pNumber) => {
-            return  <button type='button' key={pNumber}
-            onClick={()=>{ console.log('p number clicked')}}
-            >{pNumber+1}</button>
-        })} 
+          return (
+            <button
+              type="button"
+              key={pNumber}
+              className={pNumber === page ? "pageBtn active" : "pageBtn"}
+              onClick={() => {
+                console.log("p number clicked");
+              }}
+            >
+              {pNumber + 1}
+            </button>
+          );
+        })}
+      </div>
 
-        
-        
-        <button type='button' className='next-btn' onClick={nextPage}>
-        <HiChevronDoubleRight />next</button>
+     
+
+      <button type="button" className="next-btn" onClick={nextPage}>
+        <HiChevronDoubleRight />
+        next
+      </button>
     </Wrapper>
-  )
+  );
 }
 
 export default PageBtnContainer
